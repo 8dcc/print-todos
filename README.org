@@ -1,34 +1,39 @@
-#+title: Title (WIP)
+#+title: Print TODOs
+#+author: 8dcc
 #+options: toc:nil
 #+startup: showeverything
-#+author: 8dcc
 
-#+begin_comment
-*TODO*: Change project-name and title
-*TODO*: Change output.out in Makefile
-#+end_comment
-
-I am a short description.
-
-This project was generated from a template, and the initial changes have not
-been pushed yet.
+Print TODO comments in source files.
 
 * Building
 
 Clone the repository and build the project using =make=.
 
 #+begin_src bash
-git clone https://github.com/8dcc/project-name
-cd project-name
+git clone https://github.com/8dcc/print-todos
+cd print-todos
 make
+# ...
+#+end_src
+
+You can install the program on your system with the =install= target.
+
+#+begin_src bash
+sudo make install
 # ...
 #+end_src
 
 * Usage
 
-For more information about the program, run it with the =--help= argument.
+Simply specify your source files as command-line arguments.
 
 #+begin_src bash
-./project-name.out --help
-# ...
+# A single file.
+print-todos my-source.c
+
+# All sources and headers inside the 'src' directory.
+print-todos src/*.{c,h}
+
+# Using the 'find' command.
+find src/ -type f -name "*.c" -o -name "*.h" -exec print-todos {} \;
 #+end_src
