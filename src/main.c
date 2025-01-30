@@ -97,13 +97,13 @@ static bool print_file_todos(FILE* dst, FILE* src) {
 }
 
 int main(int argc, char** argv) {
-    if (argc <= 1) {
-        fprintf(stderr,
-                "Not enough arguments.\n"
-                "Usage: %s [FILE...]\n",
-                argv[0]);
-        return 1;
+    if (argc >= 2 && !strcmp(argv[1], "--help")) {
+        fprintf(stderr, "Usage: %s [FILE...]\n", argv[0]);
+        return 0;
     }
+
+    if (argc <= 1)
+        return print_file_todos(stdout, stdin);
 
     for (int i = 1; i < argc; i++) {
         const char* filename = argv[i];
