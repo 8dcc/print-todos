@@ -5,6 +5,8 @@
 #include <string.h>
 #include <stdlib.h>
 
+#define LENGTH(ARR) (sizeof(ARR) / sizeof((ARR)[0]))
+
 #define ENSURE_ALLOCATION(PTR)                                                 \
     do {                                                                       \
         if ((PTR) == NULL) {                                                   \
@@ -15,6 +17,14 @@
             return NULL;                                                       \
         }                                                                      \
     } while (0)
+
+/*----------------------------------------------------------------------------*/
+
+static const char* todos[] = {
+    "TODO", "HACK", "REVIEW", "FIXME", "DELME", "DEBUG",
+};
+
+/*----------------------------------------------------------------------------*/
 
 static char* get_next_comment(FILE* fp) {
     size_t comment_sz  = 100;
@@ -66,11 +76,19 @@ static char* get_next_comment(FILE* fp) {
     }
 }
 
+static bool has_todo(const char* comment) {
+    for (size_t i = 0; i < LENGTH(todos); i++)
+        if (strstr(comment, todos[i]) != NULL)
+            return true;
+
+    return false;
+}
+
 static bool print_file_todos(FILE* dst, FILE* src) {
     char* comment;
     while ((comment = get_next_comment(src)) != NULL) {
-        /* TODO: Only print if the comment has TODOs */
-        fprintf(dst, "%s", comment);
+        if (has_todo(comment))
+            fprintf(dst, "%s", comment);
 
         free(comment);
     }
