@@ -117,10 +117,11 @@ int main(int argc, char** argv) {
             return 1;
         }
 
-        if (!print_file_todos(stdout, fp))
-            return 1;
-
+        const bool success = print_file_todos(stdout, fp);
         fclose(fp);
+
+        if (!success)
+            return 1;
     }
 
     return 0;
